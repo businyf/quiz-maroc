@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 
 export default function Quiz() {
   const [current, setCurrent] = useState(0)
-  const [scores, setScores] = useState({})
+  const [scores, setScores] = useState<Record<string, number>>({})
   const router = useRouter()
 
  const handleAnswer = (optionScores: Record<string, number>) => {
