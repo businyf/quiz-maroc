@@ -1,7 +1,7 @@
 import { results } from "../data/questions"
 import ResultClient from "./ResultClient"
 
-export async function generateMetadata({ searchParams }) {
+export async function generateMetadata({ searchParams }: { searchParams: { country?: string } }) {
   const country = searchParams.country || "morocco"
   const result = results[country]
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
@@ -25,7 +25,7 @@ export async function generateMetadata({ searchParams }) {
   }
 }
 
-export default function ResultPage({ searchParams }) {
+export default function ResultPage({ searchParams }: { searchParams: { country?: string } }) {
   const country = searchParams.country || "morocco"
   return <ResultClient country={country} />
 }
