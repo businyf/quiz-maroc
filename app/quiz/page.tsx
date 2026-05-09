@@ -9,7 +9,7 @@ export default function Quiz() {
   const [scores, setScores] = useState({})
   const router = useRouter()
 
-  const handleAnswer = (optionScores) => {
+ const handleAnswer = (optionScores: Record<string, number>) => {
     const newScores = { ...scores }
     Object.entries(optionScores).forEach(([country, score]) => {
       newScores[country] = (newScores[country] || 0) + score
