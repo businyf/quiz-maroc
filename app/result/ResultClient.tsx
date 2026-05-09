@@ -3,7 +3,7 @@
 import { results } from "../data/questions"
 import { useRouter } from "next/navigation"
 
-export default function ResultClient({ country }) {
+export default function ResultClient({ country }: { country: string }) {
   const result = results[country]
   const router = useRouter()
 
