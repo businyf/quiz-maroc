@@ -1,4 +1,4 @@
-type Scores = {
+export type Scores = {
   japan?: number
   france?: number
   brazil?: number
