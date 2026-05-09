@@ -1,4 +1,34 @@
-export const questions = [
+type Scores = {
+  japan?: number
+  france?: number
+  brazil?: number
+  italy?: number
+  sweden?: number
+  germany?: number
+  usa?: number
+  korea?: number
+  morocco?: number
+  turkey?: number
+}
+
+type Option = {
+  text: string
+  scores: Scores
+}
+
+type Question = {
+  id: number
+  text: string
+  options: Option[]
+}
+
+type Result = {
+  flag: string
+  title: string
+  titleEn: string
+  desc: string
+}
+export const questions: Question[] = [
   {
     id: 1,
     text: "فين كايعجبك تقضي وقت فراغك؟",
@@ -101,7 +131,7 @@ export const questions = [
   },
 ]
 
-export const results = {
+export const results: Record<string, Result> = {
   japan: {
     flag: "🇯🇵",
     title: "ياباني",

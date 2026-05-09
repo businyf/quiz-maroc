@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { questions, results } from "../data/questions"
+import { questions } from "../data/questions"
+import type { Scores } from "../data/questions"
 import { useRouter } from "next/navigation"
 
 export default function Quiz() {
@@ -9,7 +10,7 @@ export default function Quiz() {
   const [scores, setScores] = useState<Record<string, number>>({})
   const router = useRouter()
 
- const handleAnswer = (optionScores: Record<string, number>) => {
+ const handleAnswer = (optionScores: Scores) => {
     const newScores = { ...scores }
     Object.entries(optionScores).forEach(([country, score]) => {
       newScores[country] = (newScores[country] || 0) + score
