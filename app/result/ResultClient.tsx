@@ -10,7 +10,10 @@ export default function ResultClient({ country }: { country: string }) {
   const [aiJoke, setAiJoke] = useState("")
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-  const shareUrl = `${baseUrl}/result?country=${country}`
+  const shareUrl =
+  typeof window !== "undefined"
+    ? `${window.location.origin}/result?country=${country}`
+    : ""
   const shareText = `جنسيتي الافتراضية: ${result.flag} ${result.title}! اكتشف جنسيتك أنت`
 
   const shareWhatsapp = () => {
@@ -18,8 +21,13 @@ export default function ResultClient({ country }: { country: string }) {
   }
 
   const shareFacebook = () => {
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`)
-  }
+  if (!shareUrl) return
+
+  window.open(
+    `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+    "_blank"
+  )
+}
 
   const shareInstagram = () => {
     navigator.clipboard.writeText(shareText + " " + shareUrl)
