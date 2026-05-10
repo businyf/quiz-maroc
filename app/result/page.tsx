@@ -1,10 +1,15 @@
 import { results } from "../data/questions"
 import ResultClient from "./ResultClient"
 
-export async function generateMetadata({ searchParams }: { searchParams: { country?: string } }) {
-  const country = searchParams.country || "morocco"
+type Props = {
+  searchParams: Promise<{ country?: string }>
+}
+
+export async function generateMetadata({ searchParams }: Props) {
+  const params = await searchParams
+  const country = params.country || "morocco"
   const result = results[country]
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://quiz-maroc.vercel.app"
 
   const ogUrl = `${baseUrl}/api/og?flag=${encodeURIComponent(result.flag)}&title=${encodeURIComponent(result.titleEn)}`
 
@@ -16,16 +21,11 @@ export async function generateMetadata({ searchParams }: { searchParams: { count
       description: result.desc,
       images: [{ url: ogUrl, width: 1200, height: 630 }],
     },
-    twitter: {
-      card: "summary_large_image",
-      title: `جنسيتي الافتراضية: ${result.title} ${result.flag}`,
-      description: result.desc,
-      images: [ogUrl],
-    },
   }
 }
 
-export default function ResultPage({ searchParams }: { searchParams: { country?: string } }) {
-  const country = searchParams.country || "morocco"
+export default async function ResultPage({ searchParams }: Props) {
+  const params = await searchParams
+  const country = params.country || "morocco"
   return <ResultClient country={country} />
 }
