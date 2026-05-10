@@ -2,10 +2,12 @@
 
 import { results } from "../data/questions"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 export default function ResultClient({ country }: { country: string }) {
   const result = results[country]
   const router = useRouter()
+  const [aiJoke, setAiJoke] = useState("")
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
   const shareUrl = `${baseUrl}/result?country=${country}`
@@ -23,6 +25,22 @@ export default function ResultClient({ country }: { country: string }) {
     navigator.clipboard.writeText(shareText + " " + shareUrl)
     alert("تم نسخ النص — افتح Instagram وشاركه في قصتك 📸")
   }
+  useEffect(() => {
+    fetch("/api/result", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ country }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.joke) {
+        setAiJoke(data.joke)
+      }
+    })
+    .catch(() => {})
+}, [country])
 
   return (
     <main className="min-h-screen bg-white flex flex-col items-center justify-center p-4" dir="rtl">
@@ -31,11 +49,13 @@ export default function ResultClient({ country }: { country: string }) {
         <div className="bg-purple-50 rounded-2xl p-8 mb-6">
           <div className="text-7xl mb-4">{result.flag}</div>
           <h1 className="text-2xl font-bold text-purple-700 mb-3">
-            جنسيتك الافتراضية: {result.title}
+            جنسيتك حسب الذكاء الإصطناعي: {result.title}
           </h1>
-          <p className="text-gray-600 leading-relaxed">
-            {result.desc}
+          <p className="text-black-600 font-bold mt-4 text-sm text-[20px] leading-relaxed">
+             {result.desc}
           </p>
+          {aiJoke && (
+            <p className="text-red-600 font-bold mt-4 text-sm text-[20px]"> ✨ {aiJoke}</p>)}
         </div>
 
         <div className="flex flex-col gap-3">

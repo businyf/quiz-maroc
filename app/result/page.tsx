@@ -14,10 +14,10 @@ export async function generateMetadata({ searchParams }: Props) {
   const ogUrl = `${baseUrl}/api/og?flag=${encodeURIComponent(result.flag)}&title=${encodeURIComponent(result.titleEn)}`
 
   return {
-    title: `جنسيتي الافتراضية: ${result.title} ${result.flag}`,
+    title: `جنسيتي الافتراضية بالذكاء الإصطناعي: ${result.title} ${result.flag}`,
     description: result.desc,
     openGraph: {
-      title: `جنسيتي الافتراضية: ${result.title} ${result.flag}`,
+      title: `جنسيتي الافتراضية بالذكاء الإصطناعي: ${result.title} ${result.flag}`,
       description: result.desc,
       images: [{ url: ogUrl, width: 1200, height: 630 }],
     },

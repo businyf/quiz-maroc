@@ -46,7 +46,7 @@ export async function GET(request) {
             {desc}
           </div>
           <div style={{ marginTop: "32px", fontSize: "20px", color: "#A78BFA" }}>
-            quiz-maroc.com — اكتشف جنسيتك أنت
+            quiz-maroc.com — اكتشف جنسيتك مع الذكاء الإصطناعي
           </div>
         </div>
       </div>

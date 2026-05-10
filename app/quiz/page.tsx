@@ -30,6 +30,7 @@ export default function Quiz() {
 
   return (
     <main className="min-h-screen bg-white flex flex-col items-center justify-center p-4" dir="rtl">
+      <h1 className="text-center font-bold text-blue-600 text-[30px]"> أجب عن الأسئلة و أترك الذكاء يخمن جنسيتك الإفتراضية حسب عقليتك</h1>
       
       <div className="w-full max-w-lg">
 
