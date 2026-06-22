@@ -1,89 +1,97 @@
-import { ImageResponse } from "next/og"
-import { readFile } from "fs/promises"
-import { join } from "path"
+﻿import { ImageResponse } from "next/og"
+
+export const runtime = "edge"
 
 export async function GET(request) {
-  const { searchParams } = new URL(request.url)
-  const country = searchParams.get("country") || "morocco"
-  const titleAr = searchParams.get("titleAr") || ""
-  const desc = searchParams.get("desc") || ""
+  try {
+    const { searchParams } = new URL(request.url)
+    const country = searchParams.get("country") || "morocco"
+    const titleAr = searchParams.get("titleAr") || ""
+    const desc = searchParams.get("desc") || ""
 
-  const fontData = await readFile(
-    join(process.cwd(), "public/fonts/NotoSansArabic.ttf")
-  )
+    const fontData = await fetch(
+      new URL("https://www.funyai.org/fonts/NotoSansArabic.ttf")
+    ).then(res => res.arrayBuffer())
 
-  const flagUrl = `https://flagcdn.com/w160/${getFlagCode(country)}.png`
+    const flagUrl = `https://flagcdn.com/w160/${getFlagCode(country)}.png`
 
-  return new ImageResponse(
-    (
-      <div style={{
-        width: "1200px",
-        height: "630px",
-        background: "#EDE9FE",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "60px",
-      }}>
+    return new ImageResponse(
+      (
         <div style={{
-          background: "white",
-          borderRadius: "32px",
-          padding: "50px 80px",
+          width: "1200px",
+          height: "630px",
+          background: "#EDE9FE",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          width: "100%",
+          justifyContent: "center",
+          padding: "60px",
+          fontFamily: "NotoSansArabic",
         }}>
-          <img
-            src={flagUrl}
-            width="120"
-            height="80"
-            style={{ borderRadius: "8px", marginBottom: "16px" }}
-          />
           <div style={{
-            fontSize: "26px",
-            color: "#7C3AED",
-            marginBottom: "8px",
-            fontFamily: "NotoSansArabic",
+            background: "white",
+            borderRadius: "32px",
+            padding: "50px 80px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+            direction: "rtl",
           }}>
-            جنسيتي الافتراضية
-          </div>
-          <div style={{
-            fontSize: "56px",
-            fontWeight: "bold",
-            color: "#5B21B6",
-            marginBottom: "16px",
-            fontFamily: "NotoSansArabic",
-          }}>
-            {titleAr}
-          </div>
-          <div style={{
-            fontSize: "20px",
-            color: "#6D28D9",
-            textAlign: "center",
-            maxWidth: "900px",
-            lineHeight: "1.6",
-            fontFamily: "NotoSansArabic",
-          }}>
-            {desc}
-          </div>
-          <div style={{
-            marginTop: "24px",
-            fontSize: "18px",
-            color: "#A78BFA",
-          }}>
-            funyai.org
+            <img
+              src={flagUrl}
+              width="160"
+              height="100"
+              style={{ borderRadius: "8px", marginBottom: "20px" }}
+            />
+            <div style={{
+              fontSize: "28px",
+              color: "#7C3AED",
+              marginBottom: "12px",
+              fontFamily: "NotoSansArabic",
+            }}>
+              جنسيتي حسب الذكاء الإصطناعي
+            </div>
+            <div style={{
+              fontSize: "60px",
+              fontWeight: "bold",
+              color: "#5B21B6",
+              marginBottom: "24px",
+              fontFamily: "NotoSansArabic",
+            }}>
+              {titleAr}
+            </div>
+            <div style={{
+              fontSize: "22px",
+              color: "#6D28D9",
+              textAlign: "center",
+              maxWidth: "900px",
+              lineHeight: "1.7",
+              fontFamily: "NotoSansArabic",
+              direction: "rtl",
+            }}>
+              {desc}
+            </div>
+            <div style={{
+              marginTop: "28px",
+              fontSize: "20px",
+              color: "#A78BFA",
+            }}>
+              funyai.org
+            </div>
           </div>
         </div>
-      </div>
-    ),
-    {
-      width: 1200,
-      height: 630,
-      fonts: [{ name: "NotoSansArabic", data: fontData, style: "normal" }],
-    }
-  )
+      ),
+      {
+        width: 1200,
+        height: 630,
+        fonts: [{ name: "NotoSansArabic", data: fontData, style: "normal" }],
+      }
+    )
+  } catch (e) {
+    console.error("OG Error:", e)
+    return new Response(`OG Error: ${e.message}`, { status: 500 })
+  }
 }
 
 function getFlagCode(country) {
