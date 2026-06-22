@@ -10,7 +10,7 @@ export async function GET(request) {
     const desc = searchParams.get("desc") || ""
 
     const fontData = await fetch(
-      new URL("https://www.funyai.org/fonts/NotoSansArabic.ttf")
+      new URL("https://www.funyai.org/fonts/Cairo.ttf")
     ).then(res => res.arrayBuffer())
 
     const flagUrl = `https://flagcdn.com/w160/${getFlagCode(country)}.png`
@@ -26,7 +26,7 @@ export async function GET(request) {
           alignItems: "center",
           justifyContent: "center",
           padding: "60px",
-          fontFamily: "NotoSansArabic",
+          fontFamily: "Cairo",
         }}>
           <div style={{
             background: "white",
@@ -48,7 +48,7 @@ export async function GET(request) {
               fontSize: "28px",
               color: "#7C3AED",
               marginBottom: "12px",
-              fontFamily: "NotoSansArabic",
+              fontFamily: "Cairo",
             }}>
               جنسيتي حسب الذكاء الإصطناعي
             </div>
@@ -57,7 +57,7 @@ export async function GET(request) {
               fontWeight: "bold",
               color: "#5B21B6",
               marginBottom: "24px",
-              fontFamily: "NotoSansArabic",
+              fontFamily: "Cairo",
             }}>
               {titleAr}
             </div>
@@ -67,7 +67,7 @@ export async function GET(request) {
               textAlign: "center",
               maxWidth: "900px",
               lineHeight: "1.7",
-              fontFamily: "NotoSansArabic",
+              fontFamily: "Cairo",
               direction: "rtl",
             }}>
               {desc}
@@ -85,7 +85,7 @@ export async function GET(request) {
       {
         width: 1200,
         height: 630,
-        fonts: [{ name: "NotoSansArabic", data: fontData, style: "normal" }],
+        fonts: [{ name: "Cairo", data: fontData, style: "normal" }],
       }
     )
   } catch (e) {
