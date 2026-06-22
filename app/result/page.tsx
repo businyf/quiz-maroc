@@ -1,3 +1,5 @@
+// app/result/page.tsx
+
 import { results } from "../data/questions"
 import ResultClient from "./ResultClient"
 
@@ -10,13 +12,15 @@ export async function generateMetadata({ searchParams }: Props) {
   const country = params.country || "morocco"
   const result = results[country]
   const baseUrl = "https://www.funyai.org"
-  const ogUrl = `${baseUrl}/api/og?flag=${encodeURIComponent(result.flag)}&title=${encodeURIComponent(result.titleEn)}`
+
+  // ✅ Pass: country, titleAr (= result.title), desc — matching what route.jsx reads
+  const ogUrl = `${baseUrl}/api/og?country=${encodeURIComponent(country)}&titleAr=${encodeURIComponent(result.title)}&desc=${encodeURIComponent(result.desc)}`
 
   return {
-    title: `جنسيتي الافتراضية: ${result.title} ${result.flag}`,
+    title: `جنسيتي بالذكاء الإصطناعي: ${result.title} ${result.flag}`,
     description: result.desc,
     openGraph: {
-      title: `جنسيتي الافتراضية: ${result.title} ${result.flag}`,
+      title: `جنسيتي بالذكاء الإصطناعي: ${result.title} ${result.flag}`,
       description: result.desc,
       url: `${baseUrl}/result?country=${country}`,
       siteName: "FunyAI",
@@ -25,7 +29,7 @@ export async function generateMetadata({ searchParams }: Props) {
           url: ogUrl,
           width: 1200,
           height: 630,
-          alt: `جنسيتي الافتراضية: ${result.title}`,
+          alt: `جنسيتي بالذكاء الإصطناعي: ${result.title}`,
         },
       ],
       type: "website",
