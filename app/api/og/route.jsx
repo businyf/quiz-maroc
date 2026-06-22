@@ -10,8 +10,13 @@ export async function GET(request) {
     const desc = searchParams.get("desc") || ""
 
     const fontData = await fetch(
-      "https://fonts.gstatic.com/s/cairo/v28/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hOA-W1Q.woff"
-    ).then(res => res.arrayBuffer())
+      "https://fonts.googleapis.com/css2?family=Cairo&subset=arabic",
+      { headers: { "User-Agent": "Mozilla/5.0" } }
+    ).then(async (res) => {
+      const css = await res.text()
+      const fontUrl = css.match(/url\(([^)]+)\)/)?.[1]
+      return fetch(fontUrl).then(r => r.arrayBuffer())
+    })
 
     const flagUrl = `https://flagcdn.com/w160/${getFlagCode(country)}.png`
 
