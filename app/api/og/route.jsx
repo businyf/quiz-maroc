@@ -28,6 +28,7 @@ export async function GET(request) {
           background: "#EDE9FE",
           display: "flex",
           flexDirection: "column",
+          direction: 'rtl',
           alignItems: "center",
           justifyContent: "center",
           padding: "60px",
