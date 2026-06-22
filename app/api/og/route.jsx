@@ -10,7 +10,7 @@ export async function GET(request) {
     const desc = searchParams.get("desc") || ""
 
     const fontData = await fetch(
-      new URL("https://www.funyai.org/fonts/Cairo.ttf")
+      "https://fonts.gstatic.com/s/cairo/v28/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hOA-W1Q.woff"
     ).then(res => res.arrayBuffer())
 
     const flagUrl = `https://flagcdn.com/w160/${getFlagCode(country)}.png`
