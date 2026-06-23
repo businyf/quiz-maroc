@@ -20,6 +20,7 @@ export async function GET(request) {
 
     const flag = getFlagEmoji(country)
     const subtitleWords = "جنسيتي حسب الذكاء الإصطناعي".split(" ").reverse()
+    const titleWords = titleAr.split(" ").reverse()
     const descWords = desc.split(" ").reverse()
 
     return new ImageResponse(
@@ -68,15 +69,22 @@ export async function GET(request) {
             </div>
 
             <div style={{
-              fontSize: "90px",
-              fontWeight: "700",
-              color: "#3B0764",
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "16px",
               marginBottom: "16px",
-              fontFamily: "Cairo",
-              textAlign: "center",
-              lineHeight: "1.2",
             }}>
-              {titleAr}
+              {titleWords.map((word, i) => (
+                <span key={i} style={{
+                  fontSize: "90px",
+                  fontWeight: "700",
+                  color: "#3B0764",
+                  fontFamily: "Cairo",
+                  lineHeight: "1.2",
+                }}>{word}</span>
+              ))}
             </div>
 
             <div style={{
