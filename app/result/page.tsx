@@ -22,7 +22,7 @@ export async function generateMetadata({ searchParams }: Props) {
     openGraph: {
       title: `جنسيتي بالذكاء الإصطناعي: ${result.title} ${result.flag}`,
       description: result.desc,
-      url: `${baseUrl}/result?country=${country}`,
+      url: `${baseUrl}`,
       siteName: "FunyAI",
       images: [
         {
