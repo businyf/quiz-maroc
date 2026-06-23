@@ -19,9 +19,7 @@ export async function GET(request) {
     })
 
     const flag = getFlagEmoji(country)
-    const subtitleWords = "جنسيتي حسب الذكاء الإصطناعي".split(" ").reverse()
-    const titleWords = titleAr.split(" ").reverse()
-    const descWords = desc.split(" ").reverse()
+    const RTL = "\u200F\u202B"
 
     return new ImageResponse(
       (
@@ -51,58 +49,45 @@ export async function GET(request) {
             </div>
 
             <div style={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: "10px",
+              fontSize: "34px",
+              color: "#6D28D9",
+              fontFamily: "Cairo",
+              fontWeight: "700",
               marginBottom: "8px",
+              direction: "rtl",
+              unicodeBidi: "bidi-override",
             }}>
-              {subtitleWords.map((word, i) => (
-                <span key={i} style={{
-                  fontSize: "34px",
-                  color: "#6D28D9",
-                  fontFamily: "Cairo",
-                  fontWeight: "700",
-                }}>{word}</span>
-              ))}
+              {RTL + "جنسيتي حسب الذكاء الإصطناعي"}
             </div>
 
             <div style={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: "16px",
+              fontSize: "90px",
+              fontWeight: "700",
+              color: "#3B0764",
+              fontFamily: "Cairo",
+              lineHeight: "1.2",
               marginBottom: "16px",
+              direction: "rtl",
+              unicodeBidi: "bidi-override",
             }}>
-              {titleWords.map((word, i) => (
-                <span key={i} style={{
-                  fontSize: "90px",
-                  fontWeight: "700",
-                  color: "#3B0764",
-                  fontFamily: "Cairo",
-                  lineHeight: "1.2",
-                }}>{word}</span>
-              ))}
+              {RTL + titleAr}
             </div>
 
             <div style={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              gap: "8px",
+              fontSize: "28px",
+              color: "#1E1B4B",
+              fontFamily: "Cairo",
+              fontWeight: "700",
+              textAlign: "right",
+              width: "100%",
               maxWidth: "1000px",
+              lineHeight: "1.6",
+              direction: "rtl",
+              unicodeBidi: "plaintext",
+              whiteSpace: "pre-wrap",
+              wordBreak: "keep-all",
             }}>
-              {descWords.map((word, i) => (
-                <span key={i} style={{
-                  fontSize: "28px",
-                  color: "#1E1B4B",
-                  fontFamily: "Cairo",
-                  fontWeight: "700",
-                }}>{word}</span>
-              ))}
+              {RTL + desc}
             </div>
 
             <div style={{
