@@ -50,11 +50,7 @@ export default function ResultClient({ country }: { country: string }) {
 
   const shareFacebook = () => {
     // Pre-scrape the URL so Facebook has it cached
-    await fetch(`https://graph.facebook.com/?id=${encodeURIComponent(facebookShareUrl)}&scrape=true`, {
-      method: "POST",
-    }).catch(() => {})
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(facebookShareUrl)}`)
-  }
   }
 
   const shareInstagram = () => {
