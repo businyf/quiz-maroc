@@ -18,8 +18,7 @@ export async function GET(request) {
       return fetch(fontUrl).then(r => r.arrayBuffer())
     })
 
-    const flagUrl = `https://flagcdn.com/w320/${getFlagCode(country)}.png`
-
+    const flag = getFlagEmoji(country)
     const subtitleWords = "جنسيتي حسب الذكاء الإصطناعي".split(" ").reverse()
     const descWords = desc.split(" ").reverse()
 
@@ -28,7 +27,7 @@ export async function GET(request) {
         <div style={{
           width: "1200px",
           height: "630px",
-          background: "#EDE9FE",
+          background: "#7C3AED",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -44,40 +43,35 @@ export async function GET(request) {
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            boxShadow: "0 4px 32px rgba(124,58,237,0.10)",
           }}>
-            <img
-              src={flagUrl}
-              width="180"
-              height="120"
-              style={{ borderRadius: "10px", marginBottom: "16px" }}
-            />
 
-            {/* Subtitle */}
+            <div style={{ fontSize: "90px", marginBottom: "8px", lineHeight: "1" }}>
+              {flag}
+            </div>
+
             <div style={{
               display: "flex",
               flexDirection: "row",
               flexWrap: "wrap",
               justifyContent: "center",
               gap: "10px",
-              marginBottom: "10px",
+              marginBottom: "8px",
             }}>
               {subtitleWords.map((word, i) => (
                 <span key={i} style={{
-                  fontSize: "32px",
-                  color: "#7C3AED",
+                  fontSize: "34px",
+                  color: "#6D28D9",
                   fontFamily: "Cairo",
                   fontWeight: "700",
                 }}>{word}</span>
               ))}
             </div>
 
-            {/* Title */}
             <div style={{
-              fontSize: "80px",
+              fontSize: "90px",
               fontWeight: "700",
-              color: "#4C1D95",
-              marginBottom: "20px",
+              color: "#3B0764",
+              marginBottom: "16px",
               fontFamily: "Cairo",
               textAlign: "center",
               lineHeight: "1.2",
@@ -85,7 +79,6 @@ export async function GET(request) {
               {titleAr}
             </div>
 
-            {/* Desc */}
             <div style={{
               display: "flex",
               flexDirection: "row",
@@ -96,8 +89,8 @@ export async function GET(request) {
             }}>
               {descWords.map((word, i) => (
                 <span key={i} style={{
-                  fontSize: "26px",
-                  color: "#5B21B6",
+                  fontSize: "28px",
+                  color: "#1E1B4B",
                   fontFamily: "Cairo",
                   fontWeight: "700",
                 }}>{word}</span>
@@ -105,9 +98,9 @@ export async function GET(request) {
             </div>
 
             <div style={{
-              marginTop: "24px",
+              marginTop: "20px",
               fontSize: "22px",
-              color: "#A78BFA",
+              color: "#7C3AED",
               fontFamily: "Cairo",
               fontWeight: "700",
             }}>
@@ -128,18 +121,18 @@ export async function GET(request) {
   }
 }
 
-function getFlagCode(country) {
-  const codes = {
-    japan: "jp",
-    france: "fr",
-    brazil: "br",
-    italy: "it",
-    sweden: "se",
-    germany: "de",
-    usa: "us",
-    korea: "kr",
-    morocco: "ma",
-    turkey: "tr",
+function getFlagEmoji(country) {
+  const emojis = {
+    japan: "🇯🇵",
+    france: "🇫🇷",
+    brazil: "🇧🇷",
+    italy: "🇮🇹",
+    sweden: "🇸🇪",
+    germany: "🇩🇪",
+    usa: "🇺🇸",
+    korea: "🇰🇷",
+    morocco: "🇲🇦",
+    turkey: "🇹🇷",
   }
-  return codes[country] || "ma"
+  return emojis[country] || "🇲🇦"
 }
