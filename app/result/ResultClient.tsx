@@ -2,68 +2,100 @@
 
 import { results } from "../data/questions"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
+import html2canvas from "html2canvas"
 
 export default function ResultClient({ country }: { country: string }) {
   const result = results[country]
   const router = useRouter()
   const [aiJoke, setAiJoke] = useState("")
+  const cardRef = useRef<HTMLDivElement>(null)
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-  const shareUrl =
-  typeof window !== "undefined"
-    ? `${window.location.origin}/result?country=${country}`
-    : ""
+  const shareUrl = `https://www.funyai.org/result?country=${country}`
+  const facebookShareUrl = `https://www.funyai.org/result?country=${country}&ref=fb`
   const shareText = `جنسيتي الافتراضية: ${result.flag} ${result.title}! اكتشف جنسيتك أنت`
+
+  const shareImage = async () => {
+    if (!cardRef.current) return
+    const canvas = await html2canvas(cardRef.current, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: "#EDE9FE",
+      ignoreElements: (element) => {
+        return element.tagName === "BUTTON"
+      },
+    })
+    canvas.toBlob(async (blob) => {
+      if (!blob) return
+      const file = new File([blob], `jinsiyati-${country}.png`, { type: "image/png" })
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: `جنسيتي الافتراضية: ${result.title}`,
+          text: `جنسيتي الافتراضية: ${result.flag} ${result.title}!\nاكتشف جنسيتك أنت 👉 www.funyai.org`,
+          files: [file],
+        })
+      } else {
+        const link = document.createElement("a")
+        link.download = `jinsiyati-${country}.png`
+        link.href = canvas.toDataURL("image/png")
+        link.click()
+      }
+    })
+  }
 
   const shareWhatsapp = () => {
     window.open(`https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`)
   }
 
   const shareFacebook = () => {
-  if (!shareUrl) return
-
-  window.open(
-    `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
-    "_blank"
-  )
-}
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(facebookShareUrl)}`)
+  }
 
   const shareInstagram = () => {
-    navigator.clipboard.writeText(shareText + " " + shareUrl)
-    alert("تم نسخ النص — افتح Instagram وشاركه في قصتك 📸")
+    shareImage()
   }
+
   useEffect(() => {
     fetch("/api/result", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ country }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.joke) {
-        setAiJoke(data.joke)
-      }
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ country }),
     })
-    .catch(() => {})
-}, [country])
+      .then((res) => res.json())
+      .then((data) => { if (data.joke) setAiJoke(data.joke) })
+      .catch(() => {})
+  }, [country])
 
   return (
     <main className="min-h-screen bg-white flex flex-col items-center justify-center p-4" dir="rtl">
       <div className="w-full max-w-lg text-center">
 
-        <div className="bg-purple-50 rounded-2xl p-8 mb-6">
-          <div className="text-7xl mb-4">{result.flag}</div>
-          <h1 className="text-2xl font-bold text-purple-700 mb-3">
+        {/* البطاقة القابلة للتصوير */}
+        <div
+          ref={cardRef}
+          style={{
+            background: "#EDE9FE",
+            borderRadius: "16px",
+            padding: "32px",
+            marginBottom: "24px",
+            textAlign: "center",
+            fontFamily: "Arial, sans-serif",
+          }}
+        >
+          <div style={{ fontSize: "72px", marginBottom: "16px" }}>{result.flag}</div>
+          <h1 style={{ fontSize: "22px", fontWeight: "bold", color: "#6D28D9", marginBottom: "12px" }}>
             جنسيتك حسب الذكاء الإصطناعي: {result.title}
           </h1>
-          <p className="text-black-600 font-bold mt-4 text-sm text-[20px] leading-relaxed">
-             {result.desc}
+          <p style={{ color: "#374151", fontWeight: "bold", fontSize: "18px", lineHeight: "1.6" }}>
+            {result.desc}
           </p>
           {aiJoke && (
-            <p className="text-red-600 font-bold mt-4 text-sm text-[20px]"> ✨ {aiJoke}</p>)}
+            <p style={{ color: "#DC2626", fontWeight: "bold", marginTop: "16px", fontSize: "18px" }}>
+              ✨ {aiJoke}
+            </p>
+          )}
+          <p style={{ color: "#C4B5FD", fontSize: "14px", marginTop: "24px" }}>funyai.org</p>
         </div>
 
         <div className="flex flex-col gap-3">
@@ -72,7 +104,7 @@ export default function ResultClient({ country }: { country: string }) {
             onClick={shareWhatsapp}
             className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-medium transition flex items-center justify-center gap-2"
           >
-            <span>📤</span> شارك على واتساب
+            <span>💬</span> شارك على واتساب
           </button>
 
           <button
@@ -86,7 +118,7 @@ export default function ResultClient({ country }: { country: string }) {
             onClick={shareInstagram}
             className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-xl font-medium transition flex items-center justify-center gap-2"
           >
-            <span>📸</span> شارك على انستغرام
+            <span>📷</span> شارك على انستغرام
           </button>
 
           <button
