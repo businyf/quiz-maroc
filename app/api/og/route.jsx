@@ -28,7 +28,6 @@ export async function GET(request) {
           background: "#EDE9FE",
           display: "flex",
           flexDirection: "column",
-          direction: 'rtl',
           alignItems: "center",
           justifyContent: "center",
           padding: "60px",
@@ -42,7 +41,6 @@ export async function GET(request) {
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            direction: "rtl",
           }}>
             <img
               src={flagUrl}
@@ -55,28 +53,30 @@ export async function GET(request) {
               color: "#7C3AED",
               marginBottom: "12px",
               fontFamily: "Cairo",
+              writingMode: "horizontal-tb",
+              textAlign: "center",
             }}>
-              جنسيتي حسب الذكاء الإصطناعي
+              {"جنسيتي حسب الذكاء الإصطناعي".split("").reverse().join("")}
             </div>
             <div style={{
-              fontSize: "60px",
+              fontSize: "64px",
               fontWeight: "bold",
               color: "#5B21B6",
               marginBottom: "24px",
               fontFamily: "Cairo",
+              textAlign: "center",
             }}>
-              {titleAr}
+              {titleAr.split("").reverse().join("")}
             </div>
             <div style={{
-              fontSize: "22px",
+              fontSize: "24px",
               color: "#6D28D9",
               textAlign: "center",
-              maxWidth: "900px",
-              lineHeight: "1.7",
+              maxWidth: "950px",
+              lineHeight: "1.8",
               fontFamily: "Cairo",
-              direction: "rtl",
             }}>
-              {desc}
+              {desc.split(" ").reverse().join(" ")}
             </div>
             <div style={{
               marginTop: "28px",
