@@ -20,7 +20,7 @@ export async function generateMetadata({ searchParams }: Props) {
     openGraph: {
       title: `جنسيتي بالذكاء الإصطناعي: ${result.title} ${result.flag}`,
       description: result.desc,
-      url: `${baseUrl}/result?country=${country}`,
+      url: `${baseUrl}/result?country=${country}&ref=fb`,
       siteName: "FunyAI",
       images: [
         {
@@ -38,9 +38,9 @@ export async function generateMetadata({ searchParams }: Props) {
 export default async function ResultPage({ searchParams }: Props) {
   const params = await searchParams
   const country = params.country || "morocco"
-
-  // If coming from Facebook share (no direct navigation), redirect to home
   const ref = params.ref
+
+  // Redirect to homepage if coming from Facebook share link
   if (ref === "fb") {
     redirect("/")
   }
