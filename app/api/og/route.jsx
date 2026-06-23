@@ -20,6 +20,10 @@ export async function GET(request) {
 
     const flagUrl = `https://flagcdn.com/w160/${getFlagCode(country)}.png`
 
+    const subtitleWords = "جنسيتي حسب الذكاء الإصطناعي".split(" ").reverse()
+    const titleWords = titleAr.split(" ").reverse()
+    const descWords = desc.split(" ").reverse()
+
     return new ImageResponse(
       (
         <div style={{
@@ -48,40 +52,52 @@ export async function GET(request) {
               height="100"
               style={{ borderRadius: "8px", marginBottom: "20px" }}
             />
+
             <div style={{
-              fontSize: "28px",
-              color: "#7C3AED",
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "8px",
               marginBottom: "12px",
-              fontFamily: "Cairo",
-              writingMode: "horizontal-tb",
-              textAlign: "center",
             }}>
-              {"جنسيتي حسب الذكاء الإصطناعي".split("").reverse().join("")}
+              {subtitleWords.map((word, i) => (
+                <span key={i} style={{ fontSize: "28px", color: "#7C3AED", fontFamily: "Cairo" }}>{word}</span>
+              ))}
             </div>
+
             <div style={{
-              fontSize: "64px",
-              fontWeight: "bold",
-              color: "#5B21B6",
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "12px",
               marginBottom: "24px",
-              fontFamily: "Cairo",
-              textAlign: "center",
             }}>
-              {titleAr.split("").reverse().join("")}
+              {titleWords.map((word, i) => (
+                <span key={i} style={{ fontSize: "64px", fontWeight: "bold", color: "#5B21B6", fontFamily: "Cairo" }}>{word}</span>
+              ))}
             </div>
+
             <div style={{
-              fontSize: "24px",
-              color: "#6D28D9",
-              textAlign: "center",
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              gap: "8px",
               maxWidth: "950px",
-              lineHeight: "1.8",
-              fontFamily: "Cairo",
+              marginBottom: "8px",
             }}>
-              {desc.split(" ").reverse().join(" ")}
+              {descWords.map((word, i) => (
+                <span key={i} style={{ fontSize: "24px", color: "#6D28D9", fontFamily: "Cairo" }}>{word}</span>
+              ))}
             </div>
+
             <div style={{
               marginTop: "28px",
               fontSize: "20px",
               color: "#A78BFA",
+              fontFamily: "Cairo",
             }}>
               funyai.org
             </div>
