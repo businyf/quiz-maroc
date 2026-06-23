@@ -1,10 +1,9 @@
-// app/result/page.tsx
-
-import { results } from "../data/questions"
+﻿import { results } from "../data/questions"
 import ResultClient from "./ResultClient"
+import { redirect } from "next/navigation"
 
 type Props = {
-  searchParams: Promise<{ country?: string }>
+  searchParams: Promise<{ country?: string; ref?: string }>
 }
 
 export async function generateMetadata({ searchParams }: Props) {
@@ -13,7 +12,6 @@ export async function generateMetadata({ searchParams }: Props) {
   const result = results[country]
   const baseUrl = "https://www.funyai.org"
 
-  // ✅ Pass: country, titleAr (= result.title), desc — matching what route.jsx reads
   const ogUrl = `${baseUrl}/api/og?country=${encodeURIComponent(country)}&titleAr=${encodeURIComponent(result.title)}&desc=${encodeURIComponent(result.desc)}`
 
   return {
@@ -22,7 +20,7 @@ export async function generateMetadata({ searchParams }: Props) {
     openGraph: {
       title: `جنسيتي بالذكاء الإصطناعي: ${result.title} ${result.flag}`,
       description: result.desc,
-      url: `${baseUrl}`,
+      url: `${baseUrl}/result?country=${country}`,
       siteName: "FunyAI",
       images: [
         {
@@ -40,5 +38,12 @@ export async function generateMetadata({ searchParams }: Props) {
 export default async function ResultPage({ searchParams }: Props) {
   const params = await searchParams
   const country = params.country || "morocco"
+
+  // If coming from Facebook share (no direct navigation), redirect to home
+  const ref = params.ref
+  if (ref === "fb") {
+    redirect("/")
+  }
+
   return <ResultClient country={country} />
 }
