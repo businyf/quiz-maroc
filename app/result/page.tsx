@@ -1,9 +1,8 @@
 ﻿import { results } from "../data/questions"
 import ResultClient from "./ResultClient"
-import { redirect } from "next/navigation"
 
 type Props = {
-  searchParams: Promise<{ country?: string; ref?: string }>
+  searchParams: Promise<{ country?: string }>
 }
 
 export async function generateMetadata({ searchParams }: Props) {
@@ -20,7 +19,7 @@ export async function generateMetadata({ searchParams }: Props) {
     openGraph: {
       title: `جنسيتي بالذكاء الإصطناعي: ${result.title} ${result.flag}`,
       description: result.desc,
-      url: `${baseUrl}/result?country=${country}&ref=fb`,
+      url: `${baseUrl}/result?country=${country}`,
       siteName: "FunyAI",
       images: [
         {
@@ -38,12 +37,5 @@ export async function generateMetadata({ searchParams }: Props) {
 export default async function ResultPage({ searchParams }: Props) {
   const params = await searchParams
   const country = params.country || "morocco"
-  const ref = params.ref
-
-  // Redirect to homepage if coming from Facebook share link
-  if (ref === "fb") {
-    redirect("/")
-  }
-
   return <ResultClient country={country} />
 }
